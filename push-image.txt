@@ -1,0 +1,17 @@
+---
+ - hosts: localhost
+   become: true
+   tasks:
+   - name: create docker image with war file
+     command: docker build -t devops .
+     args:
+       chdir: /opt/docker
+   - name: create tag to push image to dockerhub
+     command: docker tag devops bsandeep09/devops
+
+   - name: push image to dockerhub
+     command: docker push bsandeep09/devops
+
+   - name: remove docker image from server
+     command: docker rmi devops bsandeep09/devops
+     ignore_errors: yes

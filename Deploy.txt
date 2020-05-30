@@ -1,0 +1,22 @@
+---
+ - hosts: docker
+   become: true
+   tasks:
+    - name: stop current running container
+      command: docker container stop javacntr
+      ignore_errors: yes
+
+    - name: delete the stopped container now
+      command: docker container rm javacntr
+      ignore_errors: yes
+
+    - name: remove the docker image
+      command: docker rmi bsandeep09/devops
+      ignore_errors: yes
+
+    - name: pull custom image from dockerhub
+      command: docker pull bsandeep09/devops
+
+    - name: buildup container from image
+      command: docker container run -d --name javacntr -p 8080:8080 bsandeep09/devops
+
